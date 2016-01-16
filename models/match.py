@@ -24,9 +24,13 @@ class Match:
             self.guests.append(Guest(invited_player))
 
     def remove_guest(self, invited_player):
+        guest_to_remove = None
         for guest in self.guests:
-            if guest.invited_by == invited_player:
-                self.guests.remove(guest)
+            if guest.invited_by.telegram_id == invited_player.telegram_id:
+                guest_to_remove = guest
+                break
+        if guest_to_remove is not None:
+            self.guests.remove(guest_to_remove)
 
     def will_take_place_as_known_for_now(self):
         return self.players_number() > 10
@@ -50,5 +54,5 @@ class Match:
         return players_str + guests_str
 
     def annotate(self):
-        return "Место: " + self.place + "\n Время: " + self.time \
+        return self.place + ". " + self.time \
                + "\nНас пока: " + str(self.players_number())

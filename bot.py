@@ -22,14 +22,14 @@ def check_answer(message):
             all_users = {}
         player = Player(message.chat.id, message.chat.first_name + " " + message.chat.last_name)
         all_users[player.telegram_id] = player
-        if "да матч" in message.text:
+        if "да матч" in message.text or "да игра" in message.text:
             response = match.annotate()
             if player.telegram_id not in match.players.keys():
                 markup = generate_plus_minus_markup()
-        elif message.text == "+" or message.text == "Я +" or message.text == "я +":
+        elif message.text == "+" or message.text == "Я +" or message.text == "я +" or message.text == "плюс":
             match.add_player(player)
             response = "Нас " + str(match.players_number())
-        elif message.text == "-" or message.text == "Я -" or message.text == "я -":
+        elif message.text == "-" or message.text == "Я -" or message.text == "я -" or message.text == "минус":
             match.remove_player(player)
             response = "("
         elif "мной +" in message.text:
@@ -48,8 +48,10 @@ def check_answer(message):
             store["match"] = match
             response = "Следующий матч: \n" + match.annotate() + "\n Идешь?"
             send_message_to(all_users.values(), response, generate_plus_minus_markup())
-        elif "то ид" in message.text:
-            response = "Идут: \n" + match.annotate_players()
+        elif "то ид" in message.text or "олько на" in message.text:
+            response = "Нас " + str(match.players_number()) + "\nИдут: \n" + match.annotate_players()
+        elif "Как дела?" in message.text:
+            response = "Иди нахуй"
         else:
             response = "Этот бот понимает команды:" \
                        "\nКогда матч?" \
@@ -65,7 +67,7 @@ def check_answer(message):
         bot.send_message(message.chat.id, response, reply_markup=markup)
 
     if match.players_number() == 10:
-        send_message_to(all_users.values(), "Нас точно 10, играем")
+        send_message_to(match.players.values(), "Нас точно 10, играем")
 
 
 def send_message_to(players, message, markup):
