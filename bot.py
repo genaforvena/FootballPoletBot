@@ -68,9 +68,9 @@ def check_answer(message):
             for user in all_users.values():
                 response += user.name + "\n"
         else:
-            response = "Я понимаю только что-то вроде этого:" \
+            response = "Я понимаю команды:" \
                        "\nКогда матч?" \
-                       "\nКакой адрес? -" \
+                       "\nКакой адрес?" \
                        "\n+" \
                        "\n-" \
                        "\nСо мной +" \
