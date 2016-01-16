@@ -32,18 +32,22 @@ def check_answer(message):
             match.add_player(player)
             response = "Нас " + str(match.players_number())
             if match.players_number() == 10:
-                send_message_to(match.players.values(), "Нас точно 10, играем", None)
+                send_message_to(match.players.values(), "Нас точно 10, играем")
         elif message.text == "-" or message.text == "Я -" or message.text == "я -" or message.text == "минус":
             match.remove_player(player)
             response = "("
+            if match.players_number() < 10:
+                send_message_to(match.players.values(), "Один -. Нас теперь " + str(match.players_number()))
         elif "мной +" in message.text:
             match.add_guests(player, 1)
             response = "Нас " + str(match.players_number())
             if match.players_number() == 10:
-                send_message_to(match.players.values(), "Нас точно 10, играем", None)
+                send_message_to(match.players.values(), "Нас точно 10, играем")
         elif "мной -" in message.text:
             match.remove_guest(player)
-            response = "Нас " + str(match.players_number())
+            response = "((("
+            if match.players_number() < 10:
+                send_message_to(match.players.values(), "Один -. Нас теперь " + str(match.players_number()))
         elif "ы игра" in message.text:
             if match.players_number() >= 10:
                 response = "Да \nНас " + str(match.players_number())
@@ -52,7 +56,7 @@ def check_answer(message):
         elif "Создать матч" in message.text:
             match = Match("Полет", "Понедельник 20-30")
             store["match"] = match
-            response = "Следующий матч: \n" + match.annotate() + "\n Идешь?"
+            response = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
             send_message_to(all_users.values(), response, generate_plus_minus_markup())
         elif "то ид" in message.text or "олько на" in message.text:
             response = "Нас " + str(match.players_number()) + "\nИдут: \n" + match.annotate_players()
@@ -63,9 +67,9 @@ def check_answer(message):
                        "\nКогда матч?" \
                        "\n+" \
                        "\n-" \
-                       "\nсо мной +" \
-                       "\nсо мной -" \
-                       "\nкто идет?"
+                       "\nСо мной +" \
+                       "\nСо мной -" \
+                       "\nКто идет?"
         store.sync()
     if markup is None:
         bot.send_message(message.chat.id, response)
@@ -73,7 +77,7 @@ def check_answer(message):
         bot.send_message(message.chat.id, response, reply_markup=markup)
 
 
-def send_message_to(players, message, markup):
+def send_message_to(players, message, markup = None):
     for player in players:
         if markup is None:
             bot.send_message(player.telegram_id, message)
