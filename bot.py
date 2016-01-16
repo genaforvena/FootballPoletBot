@@ -60,7 +60,7 @@ def check_answer(message):
             send_message_to(all_users.values(), response, generate_plus_minus_markup())
         elif "то ид" in message.text or "олько на" in message.text:
             response = "Нас " + str(match.players_number()) + "\nТочно идут: \n" + match.annotate_players()
-        elif "Как дела?" in message.text:
+        elif "Прив" in message.text or "Как дела?" in message.text:
             response = "Иди нахуй"
         else:
             response = "Этот бот понимает команды:" \
