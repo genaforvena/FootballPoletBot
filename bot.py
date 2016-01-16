@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import types
 import config
 import telebot
 import shelve
@@ -29,12 +28,16 @@ def check_answer(message):
         elif message.text == "+" or message.text == "Я +" or message.text == "я +" or message.text == "плюс":
             match.add_player(player)
             response = "Нас " + str(match.players_number())
+            if match.players_number() == 10:
+                send_message_to(match.players.values(), "Нас точно 10, играем", None)
         elif message.text == "-" or message.text == "Я -" or message.text == "я -" or message.text == "минус":
             match.remove_player(player)
             response = "("
         elif "мной +" in message.text:
             match.add_guests(player, 1)
             response = "Нас " + str(match.players_number())
+            if match.players_number() == 10:
+                send_message_to(match.players.values(), "Нас точно 10, играем", None)
         elif "мной -" in message.text:
             match.remove_guest(player)
             response = "Нас " + str(match.players_number())
@@ -65,9 +68,6 @@ def check_answer(message):
         bot.send_message(message.chat.id, response)
     else:
         bot.send_message(message.chat.id, response, reply_markup=markup)
-
-    if match.players_number() == 10:
-        send_message_to(match.players.values(), "Нас точно 10, играем")
 
 
 def send_message_to(players, message, markup):
