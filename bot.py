@@ -63,6 +63,9 @@ def check_answer(message):
             response = "Иди нахуй"
         elif "дрес" in message.text:
             response = "ул. Чаадаева, 20А"
+        elif "дали меня" in message.text:
+            all_users.pop(player.telegram_id)
+            response = "Больше никаких уведомлений на твой номер."
         elif "то подписан" in message.text:
             response = "На уведомления подписаны:\n"
             for user in all_users.values():
@@ -75,7 +78,8 @@ def check_answer(message):
                        "\n-" \
                        "\nСо мной +" \
                        "\nСо мной -" \
-                       "\nКто идет?"
+                       "\nКто идет?" \
+                       "\nУдали меня из списка уведомлений"
         store.sync()
     if markup is None:
         bot.send_message(message.chat.id, response)
