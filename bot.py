@@ -8,7 +8,6 @@ from utils.markup_utils import generate_plus_minus_markup
 
 bot = telebot.TeleBot(config.token)
 
-
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def check_answer(message):
     with shelve.open(config.shelve_file, writeback=True) as store:
@@ -65,10 +64,13 @@ def check_answer(message):
         elif "дрес" in message.text:
             response = "ул. Чаадаева, 20А"
         elif "то подписан" in message.text:
-            response = all_users
+            response = "На уведомления подписаны:\n"
+            for user in all_users.values():
+                response += user.name + "\n"
         else:
             response = "Я понимаю только что-то вроде этого:" \
                        "\nКогда матч?" \
+                       "\nКакой адрес? -" \
                        "\n+" \
                        "\n-" \
                        "\nСо мной +" \
