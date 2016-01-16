@@ -11,8 +11,6 @@ bot = telebot.TeleBot(config.token)
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def check_answer(message):
-    response = "Что-то пошло не так"
-    markup = None
     with shelve.open(config.shelve_file, writeback=True) as store:
         try:
             match = store["match"]
@@ -24,6 +22,8 @@ def check_answer(message):
             all_users = {}
         player = Player(message.chat.id, message.chat.first_name + " " + message.chat.last_name)
         all_users[player.telegram_id] = player
+        store["users"] = all_users
+        markup = None
         if "да матч" in message.text or "да игра" in message.text:
             response = match.annotate()
             if player.telegram_id not in match.players.keys():
