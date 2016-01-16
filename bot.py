@@ -24,7 +24,8 @@ def check_answer(message):
         all_users[player.telegram_id] = player
         if "да матч" in message.text:
             response = match.annotate()
-            markup = generate_plus_minus_markup()
+            if player.telegram_id not in match.players.keys():
+                markup = generate_plus_minus_markup()
         elif message.text == "+" or message.text == "Я +" or message.text == "я +":
             match.add_player(player)
             response = "Нас " + str(match.players_number())
@@ -50,7 +51,7 @@ def check_answer(message):
         elif "то ид" in message.text:
             response = "Идут: \n" + match.annotate_players()
         else:
-            response = "он понимает команды:" \
+            response = "Этот бот понимает команды:" \
                        "\nКогда матч?" \
                        "\n+" \
                        "\n-" \
