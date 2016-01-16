@@ -16,6 +16,9 @@ def check_answer(message):
     with shelve.open(config.shelve_file, writeback=True) as store:
         try:
             match = store["match"]
+        except:
+            pass
+        try:
             all_users = store["users"]
         except:
             all_users = {}
