@@ -63,7 +63,7 @@ def check_answer(message):
         elif "Прив" in message.text or "Как дела?" in message.text:
             response = "Иди нахуй"
         else:
-            response = "Этот бот понимает команды:" \
+            response = "Я понимаю только что-то вроде этого:" \
                        "\nКогда матч?" \
                        "\n+" \
                        "\n-" \
