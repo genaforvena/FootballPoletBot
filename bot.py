@@ -62,6 +62,10 @@ def check_answer(message):
             response = "Нас " + str(match.players_number()) + "\nТочно идут: \n" + match.annotate_players()
         elif "Прив" in message.text or "Как дела?" in message.text:
             response = "Иди нахуй"
+        elif "дрес" in message.text:
+            response = "ул. Чаадаева, 20А"
+        elif "то подписан" in message.text:
+            response = all_users
         else:
             response = "Я понимаю только что-то вроде этого:" \
                        "\nКогда матч?" \
