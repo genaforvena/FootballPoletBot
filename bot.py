@@ -64,8 +64,16 @@ def check_answer(message):
         elif "дрес" in message.text:
             response = "ул. Чаадаева, 20А"
         elif "дали меня" in message.text:
-            all_users.pop(player.telegram_id)
-            response = "Больше никаких уведомлений на твой номер."
+            try:
+                del all_users[player.telegram_id]
+                response = "Больше никаких уведомлений на твой номер."
+                if player.telegram_id in match.players.keys():
+                    match.remove_player(player)
+                    if match.players_number() < 10:
+                        send_message_to(match.players.values(), "Один -. Нас теперь " + str(match.players_number()))
+            except:
+                # i know that this is bad but
+                pass
         elif "то подписан" in message.text:
             response = "На уведомления подписаны:\n"
             for user in all_users.values():
