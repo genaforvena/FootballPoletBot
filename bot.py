@@ -35,7 +35,7 @@ def check_answer(message):
         elif message.text == "-" or message.text == "Я -" or message.text == "я -" or message.text == "минус":
             match.remove_player(player)
             response = "("
-            if match.players_number() < 10:
+            if player.telegram_id in match.players.keys() and match.players_number() < 10:
                 send_message_to(match.players.values(), "Один -. Нас теперь " + str(match.players_number()))
         elif "мной +" in message.text:
             match.add_guests(player, 1)
@@ -45,7 +45,7 @@ def check_answer(message):
         elif "мной -" in message.text:
             match.remove_guest(player)
             response = "((("
-            if player.telegram_id in match.players.keys() and match.players_number() < 10:
+            if match.players_number() < 10:
                 send_message_to(match.players.values(), "Один -. Нас теперь " + str(match.players_number()))
         elif "ы игра" in message.text:
             if match.players_number() >= 10:
