@@ -103,4 +103,4 @@ def send_message_to(players, message, markup = None):
             bot.send_message(player.telegram_id, message, reply_markup=markup)
 
 if __name__ == '__main__':
-     bot.polling(none_stop=True)
+     bot.polling(timeout=120, none_stop=True)
