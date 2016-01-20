@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import config
 import telebot
 import shelve
@@ -103,4 +104,6 @@ def send_message_to(players, message, markup = None):
             bot.send_message(player.telegram_id, message, reply_markup=markup)
 
 if __name__ == '__main__':
-     bot.polling(timeout=120, none_stop=True)
+    while True:
+        bot.polling(timeout=120, none_stop=True)
+        time.sleep(200)
