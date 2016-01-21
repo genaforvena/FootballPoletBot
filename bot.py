@@ -137,7 +137,7 @@ def send_message_to(players, message, markup = None):
 if __name__ == '__main__':
     while True:
         try:
-            bot.polling(timeout=120, none_stop=True)
+            bot.polling(timeout=20, none_stop=True)
         except:
             pass
-        time.sleep(600)
+        time.sleep(60)
