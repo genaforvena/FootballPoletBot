@@ -63,6 +63,13 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
         response = "Иди нахуй"
         bot.send_message(message.chat.id, response)
 
+    elif "Позвать всех" == message.text:
+        response = "Ок. Зову всех, кто пока не поставил + на матч."
+        bot.send_message(message.chat.id, response)
+
+        broadcast = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
+        send_message_to(all_users.values() - match.players, broadcast, generate_plus_minus_markup())
+
     elif "дрес" in message.text:
         response = "ул. Чаадаева, 20А"
         bot.send_message(message.chat.id, response)
