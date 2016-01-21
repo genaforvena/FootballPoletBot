@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from logging import info
 import time
+import traceback
 import config
 import telebot
 import shelve
@@ -109,6 +111,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def check_answer(message):
+    print(message)
     with shelve.open(config.shelve_file, writeback=True) as store:
         try:
             match = store["match"]
@@ -120,11 +123,14 @@ def check_answer(message):
             all_users = {}
 
         player = Player(message.chat.id, message.chat.first_name + " " + message.chat.last_name)
+        print(player)
         all_users[player.telegram_id] = player
         store["users"] = all_users
 
+        print("Dispatching message with text: " + message.text)
         dispatch_message_and_respond(all_users, match, message, player, store)
         store.sync()
+        print("Done")
 
 
 def send_message_to(players, message, markup = None):
@@ -137,7 +143,9 @@ def send_message_to(players, message, markup = None):
 if __name__ == '__main__':
     while True:
         try:
+            print("Starting bot")
             bot.polling(timeout=20, none_stop=True)
         except:
+            traceback.print_exc()
             pass
         time.sleep(60)
