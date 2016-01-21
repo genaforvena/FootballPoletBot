@@ -69,8 +69,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
         bot.send_message(message.chat.id, response)
 
         broadcast = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
-        print(all_users.values() - match.players)
-        send_message_to(all_users.values() - match.players, broadcast, generate_plus_minus_markup())
+        send_message_to(all_users.values(), broadcast, generate_plus_minus_markup())
 
 
     elif "дрес" in message.text:
