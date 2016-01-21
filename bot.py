@@ -111,7 +111,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def check_answer(message):
-    print(message)
+    print("Got incoming message")
     with shelve.open(config.shelve_file, writeback=True) as store:
         try:
             match = store["match"]
@@ -123,7 +123,6 @@ def check_answer(message):
             all_users = {}
 
         player = Player(message.chat.id, message.chat.first_name + " " + message.chat.last_name)
-        print(player)
         all_users[player.telegram_id] = player
         store["users"] = all_users
 
