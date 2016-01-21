@@ -122,7 +122,7 @@ def check_answer(message):
         except:
             all_users = {}
 
-        player = Player(message.chat.id, message.chat.first_name + " " + message.chat.last_name)
+        player = Player(message.chat.id, str(message.chat.first_name) + " " + str(message.chat.last_name))
         all_users[player.telegram_id] = player
         store["users"] = all_users
 
