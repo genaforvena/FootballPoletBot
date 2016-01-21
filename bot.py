@@ -53,6 +53,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
         store["match"] = match
         response = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
         send_message_to(all_users.values(), response, generate_plus_minus_markup())
+
         bot.send_message(message.chat.id, response)
 
     elif "то ид" in message.text or "олько на" in message.text:
@@ -68,7 +69,9 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
         bot.send_message(message.chat.id, response)
 
         broadcast = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
+        print(all_users.values() - match.players)
         send_message_to(all_users.values() - match.players, broadcast, generate_plus_minus_markup())
+
 
     elif "дрес" in message.text:
         response = "ул. Чаадаева, 20А"
