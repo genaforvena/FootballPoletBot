@@ -5,6 +5,7 @@ import traceback
 import config
 import telebot
 import shelve
+from models.guest import Guest
 from models.match import Match
 from models.player import Player
 from utils.markup_utils import generate_plus_minus_markup
@@ -23,7 +24,8 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
 
     elif message.text == "+" or message.text == "Я +" or message.text == "я +" or message.text == "плюс":
         match.add_player(player)
-        send_message_to(match.players.values(), "Нас " + str(match.players_number()))
+        send_message_to(match.players.values(), "Нас " + str(match.players_number()) +
+                                                "\n " + str(player) + " идет")
 
     elif message.text == "-" or message.text == "Я -" or message.text == "я -" or message.text == "минус":
         match.remove_player(player)
@@ -34,7 +36,8 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
 
     elif "мной +" in message.text:
         match.add_guests(player, 1)
-        send_message_to(match.players.values(), "Нас " + str(match.players_number()))
+        send_message_to(match.players.values(), "Нас " + str(match.players_number())
+                                                + "\n " + str(Guest(player)) + " идет")
 
     elif "мной -" in message.text:
         match.remove_guest(player)
@@ -66,12 +69,16 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
         response = "Иди нахуй"
         bot.send_message(message.chat.id, response)
 
-    elif "Позвать всех" == message.text:
+    elif "Позови всех" == message.text:
         response = "Ок. Зову всех, кто пока не поставил + на матч."
         bot.send_message(message.chat.id, response)
 
         broadcast = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
         send_message_to(all_users.values(), broadcast, generate_plus_minus_markup())
+
+    elif "Напомни всем" == message.text:
+        broadcast = "Напоминаю, что игра \n" + match.annotate()
+        send_message_to(all_users.values(), broadcast)
 
     elif "дрес" in message.text:
         response = "ул. Чаадаева, 20А"
@@ -86,8 +93,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
                 if match.players_number() < 10:
                     send_message_to(match.players.values(), "Один -. Нас теперь " + str(match.players_number()))
         except:
-            # i know that this is bad but
-            pass
+            traceback.print_exc()
         bot.send_message(message.chat.id, response)
 
     elif "то подписан" in message.text:
@@ -146,5 +152,4 @@ if __name__ == '__main__':
             bot.polling(timeout=20, none_stop=True)
         except:
             traceback.print_exc()
-            pass
         time.sleep(60)

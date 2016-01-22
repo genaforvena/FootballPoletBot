@@ -6,4 +6,7 @@ class Player:
         self.name = name
         self.telegram_id = telegram_id
 
+    def __str__(self):
+        return self.name
+
 
