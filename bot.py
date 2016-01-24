@@ -25,7 +25,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
     elif message.text == "+" or message.text == "Я +" or message.text == "я +" or message.text == "плюс":
         match.add_player(player)
         send_message_to(match.players.values(), "Нас " + str(match.players_number()) +
-                                                "\n " + str(player) + " идет")
+                                                "\n" + str(player) + " идет")
 
     elif message.text == "-" or message.text == "Я -" or message.text == "я -" or message.text == "минус":
         match.remove_player(player)
@@ -37,7 +37,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
     elif "мной +" in message.text:
         match.add_guests(player, 1)
         send_message_to(match.players.values(), "Нас " + str(match.players_number())
-                                                + "\n " + str(Guest(player)) + " идет")
+                                                + "\n" + str(Guest(player)) + " идет")
 
     elif "мной -" in message.text:
         match.remove_guest(player)
@@ -75,6 +75,10 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
 
         broadcast = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
         send_message_to(all_users.values(), broadcast, generate_plus_minus_markup())
+
+    elif "Напомни тем" in message.text:
+        broadcast = "Пацан, ты обещал прийти на матч! \n" + match.annotate() + "\n\nИдешь?"
+        send_message_to(match.players, broadcast)
 
     elif "Напомни всем" == message.text:
         broadcast = "Напоминаю, что игра \n" + match.annotate()
