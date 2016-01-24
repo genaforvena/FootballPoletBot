@@ -78,7 +78,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
 
     elif "Пошли всем напоминание" in message.text:
         broadcast = "Пацан, ты обещал прийти на матч! \n" + match.annotate() + "\n\nИдешь?"
-        send_message_to(match.players(), broadcast)
+        send_message_to(match.players.values(), broadcast)
 
     elif "Напомни всем о матче" == message.text:
         broadcast = "Напоминаю, что игра \n" + match.annotate()
