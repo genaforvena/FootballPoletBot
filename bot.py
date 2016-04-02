@@ -54,7 +54,7 @@ def dispatch_message_and_respond(all_users, match, message, player, store):
         bot.send_message(message.chat.id, response)
 
     elif "Создать матч" in message.text:
-        match = Match("Северный", "Четверг 20-30")
+        match = Match("Полет", "Понедельник 20-30")
         store["match"] = match
         response = "Следующий матч: \n" + match.annotate() + "\n\nИдешь?"
         send_message_to(all_users.values(), response, generate_plus_minus_markup())
